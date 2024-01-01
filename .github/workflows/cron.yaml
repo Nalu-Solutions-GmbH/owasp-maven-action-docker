@@ -1,0 +1,24 @@
+name: OWASP with Maven Docker Image Builder
+on:
+  workflow_dispatch:
+  schedule:
+    - cron:  '0 0 * * *'
+jobs:
+  owasp-maven-builder:
+    runs-on: ubuntu-latest
+    name: OWASP Maven Builder
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Build latest images
+        run: |
+          echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+          docker build -t philkohl/owasp-maven-action:latest .
+          docker push philkohl/owasp-maven-action:latest
+      - name: Update Published Date
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "GitHub Actions"
+          echo "Last Published: $(date)" > published.md
+          git commit -a -m "published"
+          git push origin main
