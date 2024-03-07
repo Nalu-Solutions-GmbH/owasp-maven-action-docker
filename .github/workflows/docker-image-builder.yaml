@@ -30,4 +30,4 @@ jobs:
           git config user.name "GitHub Actions"
           echo "Last Published: $(date)" > published.md
           git commit -a -m "published"
-          git push origin dev
+          git push origin main
