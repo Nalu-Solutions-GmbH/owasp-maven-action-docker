@@ -2,9 +2,13 @@ FROM maven:3-eclipse-temurin-17-alpine
 
 RUN apk update && apk add unzip
 
-RUN curl -L https://github.com/jeremylong/DependencyCheck/releases/download/v8.0.0/dependency-check-8.0.0-release.zip --output dependency-checker.zip  \
+RUN curl -L https://github.com/jeremylong/DependencyCheck/releases/download/v9.0.9/dependency-check-9.0.9-release.zip --output dependency-checker.zip  \
     && unzip dependency-checker.zip
 
-RUN dependency-check/bin/dependency-check.sh --updateonly
+RUN --mount=type=secret,id=NVD_API_KEY \
+                              export NVD_API_KEY=$(cat /run/secrets/NVD_API_KEY) && \
+    dependency-check/bin/dependency-check.sh --nvdApiKey $NVD_API_KEY --updateonly
 
 ENTRYPOINT ["mvn", "org.owasp:dependency-check-maven:check", "-DdataDirectory=/dependency-check/data"]
+
+
