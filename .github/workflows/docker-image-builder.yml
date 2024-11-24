@@ -2,7 +2,7 @@ name: OWASP with Maven Docker Image Builder
 on:
   workflow_dispatch:
   schedule:
-    - cron:  '0 0 * * *'
+    - cron:  '30 2 * * *'
 jobs:
   owasp-maven-builder:
     runs-on: ubuntu-latest
