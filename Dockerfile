@@ -2,7 +2,7 @@ FROM maven:3-eclipse-temurin-17-alpine
 
 RUN apk update && apk add unzip
 
-RUN curl -L https://github.com/dependency-check/DependencyCheck/releases/download/v12.1.3/dependency-check-12.1.3-release.zip --output dependency-checker.zip  \
+RUN curl -L https://github.com/dependency-check/DependencyCheck/releases/download/v12.2.1/dependency-check-12.2.1-release.zip --output dependency-checker.zip  \
     && unzip dependency-checker.zip
 
 RUN --mount=type=secret,id=NVD_API_KEY \
